@@ -20,21 +20,22 @@ compiler = (regExp, compile, filename) -->
     @queue null
   return through write, end
 
-live = compiler /\.ls/, (filename, src) ->
-  return livescript.compile src, {filename, bare: true}
+module.exports = exports = (debug) ->
+  live-script = compiler /\.ls/, (filename, src) ->
+    return livescript.compile src, {filename, bare: true}
 
-jade = compiler /\.jade/, (filename, src) ->
-  fn = jade.compile src, {filename, client: true}
-  return "var jade = require('jade/lib/runtime.js');
-          module.exports=#{fn.to-string!}"
-
-defaults = {
-  src: "#root/client"
-  transforms: [ live, jade, "brfs", "debowerify", "deamdify" ]
-  routes: {
-    "/javascript/main.js": "./index.ls"
-  },
-}
-
-module.exports = exports = (options) ->
-  return enchilada defaults with options
+  jade-lang = compiler /\.jade/, (filename, src) ->
+    fn = jade.compile src, {filename, client: true, compileDebug: debug, pretty: debug}
+    return "var jade = require('jade/lib/runtime.js');
+            module.exports=#{fn.to-string!}"
+  options = {
+    debug
+    cache: not debug
+    compress: not debug
+    src: "#__dirname/../client/"
+    transforms: [ live-script, jade-lang, "debowerify", "deamdify", "brfs" ]
+    routes: {
+      "/javascript/main.js": "./index.ls"
+    },
+  }
+  return enchilada options

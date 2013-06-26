@@ -9,7 +9,24 @@ require! {
   locals: "../package.json"
 }
 
-root = "#{__dirname}/.."
+root  = "#__dirname/.."
+style = (debug, req, res) -->
+  filename = req.params.name.replace /\.css/, ""
+  options  = {
+    compress: not debug
+    paths: [ "#root/style/", "#root/components/normalize-css", nib.path ]
+  }
+
+  Q.nfcall fs.realpath, "#root/style/#filename.styl"
+  .then (path) ->
+    filename := path
+    return Q.nfcall fs.readFile, filename, { encoding: "utf-8" }
+  .then (src) ->
+    return Q.nfcall stylus.render, src, options with { filename }
+  .done (css) ->
+    res.set { "Content-Type": "text/css; charset=utf-8" }
+    res.send 200, css
+
 app = express!
 app.http!io!
 
@@ -25,50 +42,37 @@ app.configure ->
     # res.set { "Content-Type": "application/xhtml+xml; charset=utf-8" }
     res.render "index", locals with title: "Sima"
 
-app.configure "production", ->
-  app.get "/style/:name", style {
-    compress: true
-  }
+  app.get "/style/normalize.css", (req, res) ->
+    err, path <- fs.realpath "#root/components/normalize-css/normalize.css"
+    if err?
+      res.send 500, err.stack
+    else
+      res.sendfile path
 
-  # Set up middleware
-  app.use browserify {
-    cache: true
-    compress: true
-    debug: false
-  }
+  app.use (err, req, res, next) ->
+    console.error err.stack
+    # next err
+
+app.configure "production", ->
+  app.get "/style/:name", style false
+  app.use browserify false
 
 app.configure "development", ->
   Q.longStackSupport = true
   app.locals.pretty  = true
 
-  app.get "/style/:name", style {
-    compress: false
-  }
-  # Set up middleware
-  app.use browserify {
-    cache: false
-    compress: false
-    debug: true
-  }
+  app.get "/style/:name", style true
+  app.use browserify true
+
   app.use require("express-error").express3 {
     contextLinesCount: 3
     handleUncaughtException: true
   }
 
-style = (options, req, res) -->
-  filename = req.params.name.replace /\.css/, ""
-  Q.nfcall fs.realpath, "#root/style/#filename.styl"
-  .then (path) ->
-    filename := path
-    return Q.nfcall fs.readFile, filename, { encoding: "utf-8" }
-  .then (src) ->
-    return Q.nfcall stylus.render, src, options with {
-      filename
-      paths: [ "#root/style/", nib.path ]
-    }
-  .done (css) ->
-    res.set { "Content-Type": "text/css; charset=utf-8" }
-    res.send 200, css
-
 port = process.env.PORT or process.env.VMC_APP_PORT or 3000
-app.listen port, -> console.log "Listening on #{port}\nPress CTRL-C to stop server."
+app.listen port, ->
+  console.log """
+    Listening on #port
+    Mode is #{app.locals.settings.env}
+    Press CTRL-C to stop server.
+  """
