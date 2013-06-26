@@ -1,0 +1,17 @@
+!!! xml
+!= "<!DOCTYPE html>"
+html
+  head
+    title= title
+    meta(name="description", content=description)
+    meta(name="keywords", content=keywords)
+    meta(name="author", content=author)
+    meta(charset="UTF-8")
+    block head
+      //- script(src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js")
+      if settings.env === "production"
+        script(src="/javascript/jquery.min.js")
+      else
+        script(src="/javascript/jquery.js")
+  body
+    block content

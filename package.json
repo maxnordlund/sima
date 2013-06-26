@@ -1,0 +1,44 @@
+{
+  "name": "linkedin-hack",
+  "version": "0.0.0",
+  "description": "A hack to auto add people at LinkedIn",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "git submodule update --init --recursive",
+    "postinstall": "sh postinstall.sh",
+    "start": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/maxnordlund/linkedin-hack.git"
+  },
+  "keywords": [
+    "linkedin",
+    "hack",
+    "auto",
+    "people"
+  ],
+  "author": "Max Nordlund <max.nordlund@gmail.com>",
+  "license": "BSD",
+  "dependencies": {
+    "q": "0.9.x",
+    "connect": "2.7.x",
+    "express": "3.2.x",
+    "express.io": "1.1.x",
+    "enchilada": "0.3.x",
+    "brfs": "0.0.x",
+    "through": "2.3.x",
+    "jade": "0.31.x",
+    "marked": "0.2.x",
+    "stylus": "0.32.x",
+    "nib": "0.9.x",
+    "LiveScript": "1.1.x",
+    "prelude-ls": "1.0.x",
+    "bash-color": "0.0.x",
+    "grunt-cli": "0.1.x"
+  },
+  "devDependencies": {
+    "express-error": "0.0.5",
+    "node-inspector": "0.2.x"
+  }
+}
