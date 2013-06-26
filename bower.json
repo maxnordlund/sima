@@ -1,0 +1,13 @@
+{
+  "name": "sima",
+  "version": "0.0.0",
+  "main": "client/index.ls",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "jquery": "2.0.x"
+  }
+}

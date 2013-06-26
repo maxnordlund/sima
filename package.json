@@ -36,7 +36,9 @@
     "prelude-ls": "1.0.x",
     "bash-color": "0.0.x",
     "grunt-cli": "0.1.x",
-    "bower": "~0.9.2"
+    "bower": "~0.9.2",
+    "deamdify": "~0.1.1",
+    "debowerify": "0.0.10"
   },
   "devDependencies": {
     "express-error": "0.0.5",
