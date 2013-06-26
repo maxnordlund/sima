@@ -27,6 +27,13 @@ style = (debug, req, res) -->
     res.set { "Content-Type": "text/css; charset=utf-8" }
     res.send 200, css
 
+serve = (path, req, res) -->
+  err, path <- fs.realpath "#root/components/#path"
+  if err?
+    res.send 500, err.stack
+  else
+    res.sendfile path
+
 app = express!
 app.http!io!
 
@@ -42,12 +49,8 @@ app.configure ->
     # res.set { "Content-Type": "application/xhtml+xml; charset=utf-8" }
     res.render "index", locals with title: "Sima"
 
-  app.get "/style/normalize.css", (req, res) ->
-    err, path <- fs.realpath "#root/components/normalize-css/normalize.css"
-    if err?
-      res.send 500, err.stack
-    else
-      res.sendfile path
+  app.get "/style/normalize.css", serve "normalize-css/normalize.css"
+  app.get "/javascript/html5shiv.js", serve "html5shiv/src/html5shiv.js"
 
   app.use (err, req, res, next) ->
     console.error err.stack

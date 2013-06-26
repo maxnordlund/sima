@@ -8,6 +8,8 @@ html
     meta(name="author", content=author)
     meta(charset="UTF-8")
     block head
+      //if lt IE 9
+        script(src="/javascript/html5shiv.js")
       //- script(src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js")
       script(src="/socket.io/socket.io.js")
   body
