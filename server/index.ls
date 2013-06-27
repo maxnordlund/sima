@@ -10,6 +10,7 @@ require! {
 }
 
 root  = "#__dirname/.."
+
 style = (debug, req, res) -->
   filename = req.params.name.replace /\.css/, ""
   options  = {
