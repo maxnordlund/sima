@@ -1,0 +1,6 @@
+dt= course.code
+dd= course.name
+if user.role == "admin"
+  dd: form
+    input(type="hidden", value=course.code)
+    input(type="submit") Delete

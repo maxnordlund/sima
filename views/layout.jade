@@ -1,5 +1,5 @@
 !!! xml
-!= "<!DOCTYPE html>"
+!= "\n<!DOCTYPE html>"
 html
   head
     title= title
@@ -12,5 +12,7 @@ html
         script(src="/javascript/html5shiv.js")
       //- script(src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js")
       script(src="/socket.io/socket.io.js")
+      script(type="application/javascript", src="/javascript/main.js")
+      link(type="text/css", rel="stylesheet", href="/style/main.css")
   body
     block content

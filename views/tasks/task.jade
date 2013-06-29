@@ -1,0 +1,10 @@
+details
+  summary: dl
+    dt= task.user.name
+    dd= task.type
+    dd= task.waitTime
+    if user.id == task.user.id || user.role in ["admin", "assistant"]
+      dd: form
+        input(type="hidden", value=task.id)
+        input(type="submit") Clear
+  p= task.message
