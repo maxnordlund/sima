@@ -12,14 +12,14 @@ chai.use sinon-chai
 
 mocha-as-promised!
 
-gloabl import chai {
+gloabl import chai{
   expect
   AssertionError
   Assertion
   assert
 }
 
-gloabl import Q {
+gloabl import Q{
   fulfilled-promise: resolve
   rejected-promise: reject
 }

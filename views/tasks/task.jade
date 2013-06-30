@@ -1,7 +1,7 @@
 details
   summary: dl
     dt= task.user.name
-    dd= task.type
+    dd= task.kind
     dd= task.waitTime
     if user.id == task.user.id || user.role in ["admin", "assistant"]
       dd: form
