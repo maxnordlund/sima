@@ -36,9 +36,11 @@
     "prelude-ls": "1.0.x",
     "bash-color": "0.0.x",
     "grunt-cli": "0.1.x",
-    "bower": "~0.9.2",
-    "deamdify": "~0.1.1",
-    "debowerify": "0.0.10"
+    "bower": "0.9.x",
+    "deamdify": "0.1.x",
+    "debowerify": "0.0.x",
+    "passport": "0.1.x",
+    "passport.socketio": "1.2.x"
   },
   "devDependencies": {
     "express-error": "0.0.5",
@@ -46,6 +48,8 @@
     "mocha": "1.11.x",
     "mocha-as-promised": "1.4.x",
     "chai": "1.7.x",
-    "chai-as-promised": "3.3.x"
+    "chai-as-promised": "3.3.x",
+    "sinon": "1.7.x",
+    "sinon-chai": "2.4.x"
   }
 }

@@ -2,6 +2,6 @@
   "name": "common",
   "version": "0.0.0",
   "description": "Code shared between server and browser.",
-  "main": "./index.js",
-  "browser": "./client.js"
+  "main": "./server.ls",
+  "browser": "./browser.ls"
 }

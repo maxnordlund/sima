@@ -1,3 +1,4 @@
-import require "prelude-ls"
-$ = jQuery = require "jquery"
-require "../views/index.jade"
+# import require "prelude-ls"
+# $ = jQuery = require "jquery"
+# require "../views/index.jade"
+require "../common"
