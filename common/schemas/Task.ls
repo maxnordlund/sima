@@ -1,5 +1,5 @@
 module.exports = exports = (Schema) ->
-  TaskSchema = new Schema
+  TaskSchema = new Schema do
     _id: String
     at: Date
     message: String

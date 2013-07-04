@@ -1,5 +1,5 @@
 module.exports = exports = (Schema) ->
-  CourseSchema = new Schema
+  CourseSchema = new Schema do
     _id: String # Course code
     name: String
 

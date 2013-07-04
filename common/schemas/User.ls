@@ -1,5 +1,5 @@
 module.exports = exports = (Schema) ->
-  UserSchema = new Schema
+  UserSchema = new Schema do
     _id: String
     name: String
     email: String
