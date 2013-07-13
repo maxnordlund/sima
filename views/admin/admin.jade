@@ -1,7 +1,9 @@
 article
-  section#courses
-    include ../courses
-  section#persons
-    include ../persons
   aside#help
     include ../../README.md
+  section#courses
+    h2: a(href="/courses/") Courses
+    include ../courses/list
+  section#persons
+    h2: a(href="/persons/") Persons
+    include ../persons/list

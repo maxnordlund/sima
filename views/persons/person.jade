@@ -1,13 +1,12 @@
-form: dl
-  dt= person.name
-  dd: a(href="mailto:#{person.email}")= person.email
-  if user.role == "admin"
-    dd: select
-      for role in roles
-        value = role.toLowerCase()
-        option(value=value, selected=(person.role == value))= role
-    dd
-      input(type="hidden", value=person.id)
-      input(type="submit") Save
-  else
-    dd= person.role
+td= person.name
+td: a(href="mailto:#{person.email}")= person.email
+if user.role == "admin"
+  td: select
+    for role in roles
+      value = role.toLowerCase()
+      option(value=value, selected=(person.role == value))= role
+  td: form
+    input(type="hidden", value=person.id)
+    input(type="submit", value="Save")
+else
+  td= person.role

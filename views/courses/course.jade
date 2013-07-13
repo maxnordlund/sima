@@ -1,6 +1,6 @@
-dt= course.code
-dd= course.name
+td: a(href="/tasks/#{course.code}")= course.code
+td= course.name
 if user.role == "admin"
-  dd: form
+  td: form
     input(type="hidden", value=course.code)
-    input(type="submit") Delete
+    input(type="submit", value="Delete")

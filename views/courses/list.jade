@@ -1,3 +1,17 @@
-dl
-  for course in courses
-    include course
+table
+  thead
+    tr
+      th Code
+      th Name
+      if user.role == "admin"
+        th Delete
+  tfoot
+    tr
+      th Code
+      th Name
+      if user.role == "admin"
+        th Delete
+  tbody
+    for course in courses
+      tr
+        include course

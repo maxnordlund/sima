@@ -1,9 +1,65 @@
 @import "nib"
 @import "normalize.css"
 
-a
+links(link-color)
+  color link-color
   text-decoration none
-  &, &:link
-    color darkgrey
-a:hover
-  text-decoration underline
+  &:visited
+    color darken(link-color, 40%)
+  &:hover
+    color lighten(link-color, 30%)
+    text-decoration underline
+  &:visited:hover
+    color link-color
+  &:focus
+  &:active
+    color lighten(link-color, 50%)
+
+html
+  background-color #E8E8E8
+
+body > header
+  background-color #222
+  color #EEE
+  padding 20px
+
+h1
+  margin 0
+
+footer
+  background-color #999
+  padding 20px
+  a
+    links(#666)
+
+aside
+  float right
+  width 30%
+
+article
+  background-color #E8E8F8
+  margin 0 auto
+  width 80%
+
+section
+aside
+  padding 20px
+
+h2
+  margin 0
+  padding-bottom 0.8em
+
+a
+  links(#779)
+
+a[href^="mailto:"]
+  links(#77B)
+
+th
+td
+  padding-right 10px
+  text-align left
+
+summary
+  form
+    display inline

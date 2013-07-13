@@ -1,8 +1,6 @@
-ol
-  for task in tasks
-    li
-      if task.unimportant
-        del
-          include task
-      else
-        include task
+for task in tasks
+  if task.unimportant
+    del
+      include task
+  else
+    include task

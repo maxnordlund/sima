@@ -1,4 +1,19 @@
-ol
-  for person in persons
-    li
-      include person
+table
+  thead
+    tr
+      th Name
+      th Email
+      th Role
+      if user.role == "admin"
+        th Save
+  tfoot
+    tr
+      th Name
+      th Email
+      th Role
+      if user.role == "admin"
+        th Save
+  tbody
+    for person in persons
+      tr
+        include person

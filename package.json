@@ -4,19 +4,22 @@
   "description": "A queuing application for the Computer Science and Communications collage at the Royal Institute of Technology in Stockholm, Sweden.",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
+    "prestart": ". shim.sh -e",
+    "start": "livescript ./server",
+    "poststart": ". shim.sh -d",
     "pretest": ". shim.sh -e",
-    "test": "mocha"
+    "test": "mocha test/",
+    "posttest": ". shim.sh -d"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/maxnordlund/sima.git"
   },
   "keywords": [
-    "sima",
-    "queue",
+    "csc",
     "kth",
-    "csc"
+    "queue",
+    "sima"
   ],
   "author": "Max Nordlund <maxno@kth.se>",
   "license": "BSD",
@@ -51,6 +54,7 @@
     "mocha-as-promised": "1.4.x",
     "node-inspector": "0.2.x",
     "sinon": "1.7.x",
-    "sinon-chai": "2.4.x"
+    "sinon-chai": "2.4.x",
+    "node-dev": "~2.0.1"
   }
 }

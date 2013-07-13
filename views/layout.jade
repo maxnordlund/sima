@@ -15,4 +15,10 @@ html
       script(type="application/javascript", src="/javascript/main.js")
       link(type="text/css", rel="stylesheet", href="/style/main.css")
   body
+    header
+      h1= title
     block content
+    footer
+      = "Licensed under "
+      abbr(title="Berkeley Software Distribution")
+        a(href="http://opensource.org/licenses/BSD-3-Clause") BSD
