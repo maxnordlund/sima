@@ -5,6 +5,10 @@ enumValidator = (validator, allowed, value) -->
   return that if validator value
   return new Error "Expected value in [#{allowed.join ", "}] got #{value}" if value not in allowed
 
+refValidator = (ref, value) -->
+  return new Error "Expected value to be #ref was undefined" if not value?
+  return new Error "Expected value to be #ref was #{value.displayName}" if value not instanceof module[ref]
+
 arrayValidator = (validator, array) -->
   result = []
   for value in array when validator value
@@ -21,9 +25,9 @@ class Schema
   (definition) ->
     @_default   = {}
     @_virtual   = {}
-    @_validator = @_parse definition
+    @_validator = @_parse definition, []
 
-  _parse: (definition) ->
+  _parse: (definition, path) ->
     switch typeof! definition
       case "Object"
         if definition.default?
@@ -31,18 +35,20 @@ class Schema
           for sub in initial path
             value = value.{}.[sub]
           value[last path] = definition.default
-
-        if definition.type?
+        #
+        if definition.ref?
+          return refValidator definition.ref
+        else if definition.type?
           validator = typeValidator definition.type
           validator = enumValidator validator, definition.enum if definition.enum?
           return validator
         else
           obj = {}
           for sub, def of definition
-            obj[sub] = @_parse def
+            obj[sub] = @_parse def, [...path, sub]
           return objectValidator obj
       case "Array"
-        return arrayValidator @_parse definition[0]
+        return arrayValidator @_parse definition[0], [...path, 0]
       else
         return typeValidator definition
 
@@ -55,23 +61,17 @@ class Schema
       get: (getter) -> obj.get = getter
       set: (setter) -> obj.set = setter
 
-class Model
-  (@schema, input) -->
-    @errors = {}
-    import @schema._default
-    import input
-    import _set @schema._virtual
-
+Model =
   _set: (virtual) ->
     if typeof! virtual.get is "Function"
-      return virtual.get!
+      return virtual.get.call @
     else
       obj = {}
       for key, val of virtual
         obj[key] = @_set val
       return obj
 
-  _flatten = !(errors, path) ->
+  _flatten: !(errors, path) ->
     switch typeof! errors
       when "Object"
         for key, err of errors
@@ -84,10 +84,19 @@ class Model
 
   validate: (cb) ->
     @_flatten @schema.validate(@), []
+    cb @errors
 
 model = (name, schema) ->
-  klass = new Model schema
+  klass = class Document implements Model
+    (input) ->
+      @schema = schema
+      @displayName = name
+      @errors = {}
+      import @schema._default
+      import input
+      import @_set @schema._virtual
   klass.displayName = name
+  module[name] = klass
   return klass
 
 export {

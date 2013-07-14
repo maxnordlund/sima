@@ -9,7 +9,8 @@
     "poststart": ". shim.sh -d",
     "pretest": ". shim.sh -e",
     "test": "mocha test/",
-    "posttest": ". shim.sh -d"
+    "posttest": ". shim.sh -d",
+    "postinstall": "./node_modules/.bin/bower install"
   },
   "repository": {
     "type": "git",
@@ -27,10 +28,10 @@
     "bash-color": "0.0.x",
     "bower": "0.9.x",
     "brfs": "0.0.x",
+    "browserify-middleware": "1.14.x",
     "connect": "2.7.x",
     "deamdify": "0.1.x",
     "debowerify": "0.0.x",
-    "enchilada": "0.3.x",
     "express": "3.2.x",
     "express.io": "1.1.x",
     "jade": "0.31.x",

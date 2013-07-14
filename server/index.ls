@@ -1,32 +1,14 @@
-import require "prelude-ls"
+global import require "prelude-ls"
 require! {
   fs
-  nib
-  stylus
   "express.io"
   "./browserify"
+  "./styl"
   Q: q
   locals: "../package.json"
 }
 
-root  = "#__dirname/.."
-
-style = (debug, req, res) -->
-  filename = req.params.name.replace /\.css/, ""
-  options  = {
-    compress: not debug
-    paths: [ "#root/style/", "#root/components/normalize-css", nib.path ]
-  }
-
-  Q.nfcall fs.realpath, "#root/style/#filename.styl"
-  .then (path) ->
-    filename := path
-    return Q.nfcall fs.readFile, filename, { encoding: "utf-8" }
-  .then (src) ->
-    return Q.nfcall stylus.render, src, options with { filename }
-  .done (css) ->
-    res.set { "Content-Type": "text/css; charset=utf-8" }
-    res.send 200, css
+root = fs.realpathSync "#__dirname/.."
 
 serve = (path, req, res) -->
   err, path <- fs.realpath "#root/components/#path"
@@ -86,6 +68,7 @@ app.configure ->
 
   # Set the public folder as static assets
   app.use express.static "#root/public"
+  browserify root, app
 
   app.get "/", (req, res) ->
     # res.set { "Content-Type": "application/xhtml+xml; charset=utf-8" }
@@ -105,15 +88,18 @@ app.configure ->
   app.get "/javascript/html5shiv.js", serve "html5shiv/src/html5shiv.js"
 
 app.configure "production", ->
-  app.get "/style/:name", style false
-  app.use browserify false
+  app.get "/style/:name", styl root, false
 
 app.configure "development", ->
   Q.longStackSupport = true
   app.locals.pretty  = true
 
-  app.get "/style/:name", style true
-  app.use browserify true
+  app.get "/style/:name", styl root, true
+
+  app.use (err, req, res, next) ->
+    console.error err.stack
+    res.send 500, err.stack
+    # next err
 
   app.use require("express-error").express3 {
     contextLinesCount: 3

@@ -3,6 +3,7 @@ module.exports = exports = (Schema) ->
     _id: String
     at: Date
     message: String
+    unimportant: Boolean
     kind:
       type: String
       default: "help"

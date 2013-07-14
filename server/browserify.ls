@@ -1,10 +1,12 @@
-import require "prelude-ls"
+global import require "prelude-ls"
 require! {
   jade
   through
-  enchilada
-  livescript: LiveScript
+  livescript: "LiveScript"
+  browserify: "browserify-middleware"
 }
+
+debug = not process.env.NODE_ENV? or process.env.NODE_ENV is "development"
 
 compiler = (regExp, compile, filename) -->
   return through! if not regExp.test filename
@@ -20,22 +22,31 @@ compiler = (regExp, compile, filename) -->
     @queue null
   return through write, end
 
-module.exports = exports = (debug) ->
-  live-script = compiler /\.ls/, (filename, src) ->
-    return livescript.compile src, {filename, bare: true}
+live-script = compiler /\.ls/, (filename, src) ->
+  return livescript.compile src, {filename, bare: true}
 
-  jade-lang = compiler /\.jade/, (filename, src) ->
-    fn = jade.compile src, {filename, client: true, compileDebug: debug, pretty: debug}
-    return "var jade = require('jade/lib/runtime.js');
-            module.exports=#{fn.to-string!}"
-  options = {
-    debug
-    cache: not debug
-    compress: not debug
-    src: "#__dirname/../client/"
-    transforms: [ live-script, jade-lang, "debowerify", "deamdify", "brfs" ]
-    routes: {
-      "/javascript/main.js": "./index.ls"
-    },
+jade-lang = compiler /\.jade/, (filename, src) ->
+  fn = jade.compile src, {
+    filename
+    client: true
+    compileDebug: debug
+    pretty: debug
   }
-  return enchilada options
+  return "var jade = require('jade/lib/runtime.js');
+          module.exports=#{fn.to-string!}"
+
+browserify.settings {
+  transform: [
+    live-script
+    jade-lang
+    "debowerify"
+    "deamdify"
+    "brfs"
+  ]
+  noParse: <[ jquery ]>
+}
+
+module.exports = exports = (root, app) ->
+  app.get "/javascript/index.ls", browserify "#root/client/index.ls"
+
+  return
