@@ -6,6 +6,6 @@ module.exports = exports = (Schema) ->
     role:
       type: String
       default: "user"
-      enum: <[ admin assistant user ]>
+      enum: <[ Admin Assistant User ]>
 
   return UserSchema
