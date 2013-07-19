@@ -1,6 +1,6 @@
 {
   "name": "taskig",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A queuing application for the Computer Science and Communications collage at the Royal Institute of Technology in Stockholm, Sweden.",
   "main": "index.js",
   "scripts": {
