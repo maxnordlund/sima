@@ -1,5 +1,5 @@
 {
-  "name": "sima",
+  "name": "taskig",
   "version": "0.0.0",
   "description": "A queuing application for the Computer Science and Communications collage at the Royal Institute of Technology in Stockholm, Sweden.",
   "main": "index.js",
@@ -14,13 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/maxnordlund/sima.git"
+    "url": "git://github.com/maxnordlund/taskig.git"
   },
   "keywords": [
     "csc",
     "kth",
     "queue",
-    "sima"
+    "task",
+    "taskig"
   ],
   "author": "Max Nordlund <maxno@kth.se>",
   "license": "BSD",

@@ -72,17 +72,17 @@ app.configure ->
 
   app.get "/", (req, res) ->
     # res.set { "Content-Type": "application/xhtml+xml; charset=utf-8" }
-    res.render "index", locals with title: "Sima"
+    res.render "index", locals with title: "TaskIG"
 
   <[ Admin Courses Persons ]>.forEach (page) ->
     app.get "/#{page.toLowerCase!}", (req, res) ->
       # res.set { "Content-Type": "application/xhtml+xml; charset=utf-8" }
-      res.render page.toLowerCase!, locals with title: "Sima | #page"
+      res.render page.toLowerCase!, locals with title: "TaskIG | #page"
 
   app.get "/tasks/:course", (req, res) ->
     course = req.param "course"
     # res.set { "Content-Type": "application/xhtml+xml; charset=utf-8" }
-    res.render "tasks", locals with title: "Sima | Tasks | #course"
+    res.render "tasks", locals with title: "TaskIG | Tasks | #course"
 
   app.get "/style/normalize.css", serve "normalize-css/normalize.css"
   app.get "/javascript/html5shiv.js", serve "html5shiv/src/html5shiv.js"
