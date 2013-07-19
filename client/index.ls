@@ -16,19 +16,19 @@ views =
 schemas = require "../common"
 
 persons = map (-> new schemas.User it), [
-  * _id: 1
+  * _id: "1"
     name: "Max Nordlund"
     email: "maxno@kth.se"
     role: "Admin"
-  * _id: 2
+  * _id: "2"
     name: "Martin Frost"
     email: "blame@kth.se"
     role: "Assistant"
-  * _id: 3
+  * _id: "3"
     name: "Johan Fogelström"
     email: "johfog@kth.se"
     role: "User"
-  * _id: 4
+  * _id: "4"
     name: "Oskar Segresvärd"
     email: "oskarseg@kth.se"
     role: "User"
@@ -42,13 +42,13 @@ courses = map (-> new schemas.Course it), [
 ]
 
 tasks = map (-> new schemas.Task it), [
-  * _id: 1
+  * _id: "1"
     user: persons[2]
     kind: "help"
     at: new Date
     message: "Fattar inte sökträd"
     unimportant: true
-  * _id: 2
+  * _id: "2"
     user: courses[3]
     kind: "report"
     at: new Date
@@ -68,7 +68,7 @@ window.locals = locals
 
 walker = ->
   console.log it.displayName
-  it.validate (errs) -> console.log errs
+  it.validate (errs) -> console.log Object.keys(errs)
 
 for docs in <[ persons courses tasks ]>
   each walker, locals[docs]
