@@ -1,12 +1,17 @@
 typeValidator = (type, value) -->
+  return void if not value?
   return new Error "Expected type #{type.name} got #{value}" if typeof! value isnt type.name
 
 enumValidator = (validator, allowed, value) -->
   return that if validator value
   return new Error "Expected value in [#{allowed.join ", "}] got #{value}" if value not in allowed
 
+requiredValidator = (validator, value) -->
+  return new Error "Expected value to be defined" if not value?
+  return validator value
+
 refValidator = (ref, value) -->
-  return new Error "Expected value to be #ref was undefined" if not value?
+  return void if not value?
   return new Error "Expected value to be #ref was #{value.displayName}" if value not instanceof module[ref]
 
 arrayValidator = (validator, array) -->
@@ -41,6 +46,7 @@ class Schema
         else if definition.type?
           validator = typeValidator definition.type
           validator = enumValidator validator, definition.enum if definition.enum?
+          validator = requiredValidator validator if definition.required
           return validator
         else
           obj = {}
@@ -80,10 +86,11 @@ Model =
         for err, index in errors
           @_flatten err, [...path, index]
       else
-        @errors[path.join "."] = errors
+        @[path.join "."] = errors
 
   validate: (cb) ->
-    @_flatten @schema.validate(@), []
+    @_flatten @schema.validate(@), <[ errors ]>
+    @errors ?= {}
     cb @errors
 
 model = (name, schema) ->
