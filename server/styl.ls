@@ -1,9 +1,9 @@
 global import require "prelude-ls"
 require! {
+  Q
   fs
   nib
   stylus
-  Q: "q"
 }
 
 module.exports = exports = (root, debug) ->

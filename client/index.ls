@@ -15,45 +15,13 @@ views =
 
 schemas = require "../common"
 
-persons = map (-> new schemas.User it), [
-  * _id: "1"
-    name: "Max Nordlund"
-    email: "maxno@kth.se"
-    role: "Admin"
-  * _id: "2"
-    name: "Martin Frost"
-    email: "blame@kth.se"
-    role: "Assistant"
-  * _id: "3"
-    name: "Johan Fogelström"
-    email: "johfog@kth.se"
-    role: "User"
-  * _id: "4"
-    name: "Oskar Segresvärd"
-    email: "oskarseg@kth.se"
-    role: "User"
-]
+persons = map (-> new schemas.User it),   require "../tests/fixtures/persons"
+courses = map (-> new schemas.Course it), require "../tests/fixtures/courses"
+new_task = (data, index) ->
+  task = new schemas.Task data
+  task.user = persons[index+1]
+tasks = map new_task,require "../tests/fixtures/tasks"
 
-courses = map (-> new schemas.Course it), [
-  * _id: "DD1341"
-    name: "Introduktion till datalogi"
-  * _id: "DD1339"
-    name: "Introduktion till datalogi"
-]
-
-tasks = map (-> new schemas.Task it), [
-  * _id: "1"
-    user: persons[2]
-    kind: "help"
-    at: new Date
-    message: "Fattar inte sökträd"
-    unimportant: true
-  * _id: "2"
-    user: courses[3]
-    kind: "report"
-    at: new Date
-    message: "Uppgift 10"
-]
 
 locals = {
   tasks

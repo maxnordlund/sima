@@ -46,7 +46,8 @@
     "prelude-ls": "1.0.x",
     "q": "0.9.x",
     "stylus": "0.32.x",
-    "through": "2.3.x"
+    "through": "2.3.x",
+    "connect-ensure-login": "0.1.x"
   },
   "devDependencies": {
     "chai": "1.7.x",
@@ -57,6 +58,6 @@
     "node-inspector": "0.2.x",
     "sinon": "1.7.x",
     "sinon-chai": "2.4.x",
-    "node-dev": "~2.0.1"
+    "node-dev": "2.0.x"
   }
 }

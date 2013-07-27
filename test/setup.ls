@@ -1,9 +1,9 @@
 require! {
+  Q
   chai
   "sinon-chai"
   "chai-as-promised"
   "mocha-as-promised"
-  Q: q
 }
 
 chai.should!

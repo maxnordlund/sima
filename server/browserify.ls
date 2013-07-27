@@ -2,11 +2,11 @@ global import require "prelude-ls"
 require! {
   jade
   through
-  livescript: "LiveScript"
+  livescript: \LiveScript
   browserify: "browserify-middleware"
 }
 
-debug = not process.env.NODE_ENV? or process.env.NODE_ENV is "development"
+debug = not process.env.NODE_ENV? or process.env.NODE_ENV is \development
 
 compiler = (regExp, compile, filename) -->
   return through! if not regExp.test filename
@@ -17,7 +17,7 @@ compiler = (regExp, compile, filename) -->
     try
       code = compile filename, src
     catch err
-      @emit "error", err
+      @emit \error, err
     @queue code
     @queue null
   return through write, end
@@ -39,9 +39,9 @@ browserify.settings {
   transform: [
     live-script
     jade-lang
-    "debowerify"
-    "deamdify"
-    "brfs"
+    \debowerify
+    \deamdify
+    \brfs
   ]
   noParse: <[ jquery ]>
 }
