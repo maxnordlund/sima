@@ -1,4 +1,4 @@
-require! \./persons
+require! "./persons.ls"
 
 module.exports = exports =
   * id: 1

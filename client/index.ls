@@ -15,12 +15,13 @@ views =
 
 schemas = require "../common"
 
-persons = map (-> new schemas.User it),   require "../tests/fixtures/persons"
-courses = map (-> new schemas.Course it), require "../tests/fixtures/courses"
+persons = map (-> new schemas.User it),   require "../test/fixtures/persons.ls"
+courses = map (-> new schemas.Course it), require "../test/fixtures/courses.ls"
 new_task = (data, index) ->
   task = new schemas.Task data
   task.user = persons[index+1]
-tasks = map new_task,require "../tests/fixtures/tasks"
+  return task
+tasks = map new_task, require "../test/fixtures/tasks.ls"
 
 
 locals = {
