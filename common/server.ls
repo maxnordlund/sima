@@ -1,10 +1,10 @@
 require! {
-  mongoose.model
+  mongoose
   mongoose.Schema
 }
 
 export {
-  Course: model "Course", require("./schemas/Course") Schema
-  Task:   model "Task",   require("./schemas/Task")   Schema
-  User:   model "User",   require("./schemas/User")   Schema
+  Course: mongoose.model "Course", require("./schemas/Course") Schema
+  Task:   mongoose.model "Task",   require("./schemas/Task") Schema
+  User:   mongoose.model "User",   require("./schemas/User") Schema
 }
