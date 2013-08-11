@@ -1,16 +1,47 @@
-require! \passport
+require! {
+  url
+  passport
+  request
+}
 
 class CentralAuthenticationService extends passport.Strategy
-  (@verify) ->
+  (options, @verify) ->
+    import options{
+      url, callback-url
+    }
     @name = \cas
 
-  authenticate: (req) ->
-    # TODO: send request to KTH:s CAS and receive answer.
-    # Use session to remember which request goes to which response
-    # Look at OAuth Strategy for example
+  absolute-url = (req, other-url) ->
+    protocol = if req.connection.encrypted or req.headers["x-forwarded-proto"] is \https then \https else \http
+    original = "#protocol://#{req.headers.host}#{req.url or ""}"
+    url.resolve original, other-url
 
-module.exports = exports = new CentralAuthenticationService do
-  (ugid, done) ->
-    # TODO: Find in Mongoose or do LDAP stuff to
-    # get the rest of info and create a new User
-    done null, persons[ugid]
+  authenticate: (req) ->
+    if req.query?.ticket?
+      # Ticket from CAS /login
+      options = {
+        url: url.resolve @url, \/validate
+        method: \GET
+        qs: {
+          ticket: that
+          service: absolute-url req, @callback-url
+        }
+      }
+      request options, (err, response, body) ~>
+        [ok, ugid] = lines body
+        @verify ugid, (err, user, info) ~>
+          @error err if err?
+          @fail info if not user
+          @success user, info
+          @redirect req.session.return-to
+    else
+      # Not logged in yet
+      base = url.parse @url
+      base.query = {
+        # +gateway # Doesn't work with KTH
+        service: absolute-url req, @callback-url
+      }
+      delete! base.search
+      @redirect url.format base
+
+module.exports = exports = CentralAuthenticationService
