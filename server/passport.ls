@@ -4,7 +4,7 @@ require! {
   request
 }
 
-class CentralAuthenticationService extends passport.Strategy
+export class CentralAuthenticationService extends passport.Strategy
   (options, @verify) ->
     import options{
       url, callback-url
@@ -44,4 +44,4 @@ class CentralAuthenticationService extends passport.Strategy
       delete! base.search
       @redirect url.format base
 
-module.exports = exports = CentralAuthenticationService
+# module.exports = exports = CentralAuthenticationService

@@ -4,15 +4,15 @@ require! {
   Q
   fs
   passport
-  "connect-ensure-login".ensure-logged-in
   "express.io"
+  "connect-ensure-login".ensure-logged-in
+  "./passport".CentralAuthenticationService
   "./styl"
   "./browserify"
   "../test/fixtures/persons"
   "../test/fixtures/courses"
   "../test/fixtures/tasks"
   locals: "../package.json"
-  CentralAuthenticationService: "./passport"
 }
 
 root = fs.realpathSync "#__dirname/.."
@@ -45,7 +45,9 @@ app.configure ->
     # TODO: Find in Mongoose or do LDAP stuff to
     # get the rest of info and create a new User
     # done null, persons[ugid]
-    done null, persons.0
+    console.log "Login handler", ugid
+    User.find-by-ugid ugid, done
+    # done null, persons.0
 
   passport.serialize-user (user, done) ->
     done null, user.id
@@ -59,6 +61,8 @@ app.configure ->
   app.use passport.initialize!
   app.use passport.session!
   app.use app.router
+
+  app.use express.logger format: \dev
 
   browserify root, app
 
